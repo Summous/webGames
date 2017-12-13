@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+	canvas {
+		border: solid 1px black;
+	}
+</style>
+<script src="paddle.js"></script>
+<script src="ball.js"></script>
+<script src="brick.js"></script>
+<script src="game.js"></script>
+<script src="utools.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<title>game 1</title>
+</head>
+<body>
+	<canvas id="id_canvas" width="400" height="300"></canvas>
+<script>
+    function __main() {
+
+		var paddle = Paddle();
+    	var ball =  Ball();
+    	var game =  Game();
+    	var brick =  Brick();
+
+    	var pause = true;
+
+		game.update = function() {
+
+			if(!pause) {
+				return false;
+			}
+
+			ball.move();
+
+			if(collide(ball, paddle)) {
+				ball.reverse();
+			}
+
+			if (collide(ball, brick) && brick.alive()) {
+				brick.disappear();
+				ball.reverse();
+			}
+		}
+
+		game.draw = function() {
+			game.drawImage(paddle);
+			game.drawImage(ball);
+			if(!brick.crash) {
+				game.drawImage(brick);	
+			}			
+		}
+		
+		game.resgisterEvent("a", function(event) {
+			paddle.moveLeft();
+		});
+
+		game.resgisterEvent("d", function(event) {
+			paddle.moveRight();
+		});
+
+		game.resgisterEvent("k", function(event) {
+			ball.fireBall();
+		});
+
+		window.addEventListener("keydown", function(event) {
+			if(event.key == "p") {
+				pause = !pause;	
+			}
+			
+		});
+	}
+
+    __main();
+</script>
+</body>
+</html>

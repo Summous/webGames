@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+	canvas {
+		border: solid 1px black;
+	}
+</style>
+<head>
+	<meta charset="UTF-8">
+	<title>game 1</title>
+</head>
+<body>
+	<canvas id="id_canvas" width="400" height="300"></canvas>
+<script>
+	var log = console.log.bind(console);
+	var canvas = document.querySelector("#id_canvas");
+	var context = canvas.getContext("2d");
+	var key = false;
+	var fireBall = false;
+
+	var Paddle = function() {
+		var o = new Object();
+		o.x = 120;
+		o.y = 200;
+		o.height = 27; 
+		o.width = 172;
+		o.speed = 10;
+
+		o.moveLeft = function() {
+			o.x -= o.speed;
+		}
+
+		o.moveRight = function() {
+			o.x += o.speed;
+		}
+		return o;		
+	}
+
+	var Ball = function() {
+		var o = new Object();
+		o.x = 130;
+		o.y = 180;
+		o.width = 20;
+		o.height = 18;
+		o.speedX = 5;
+		o.speedY = 8;
+
+		o.reverse = function() {
+			o.speedX *= 1;
+			o.speedY *= -1;
+		}
+
+		o.move = function() {
+			if(o.x < 0 || o.x > 400){
+				o.speedX *= -1;
+			}else if(o.y < 0 || o.y > 300){
+				o.speedY *= -1;
+			}
+			o.x -= o.speedX;
+			o.y -= o.speedY;
+		}
+
+		o.collide = function(paddle) {
+			if((o.x < paddle.x + paddle.width && o.x + o.width > paddle.x ) 
+				&& (o.y < paddle.y + paddle.height && o.y + o.width > paddle.y)) {
+				return true;
+			}
+			return false;
+		}	
+
+		return o;		
+	}
+
+	var Game = function() {
+		var o = new Object();
+		o.paddle = "Paddle.png";
+		o.ball = "Ball.png";
+
+		o.keydown = function(event) {
+			if(event.key == "a") {
+				key = "a";
+			}else if (event.key == "d") {
+				key = "d";
+			}
+		}
+
+		o.keyup = function(event) {
+			if (event.key)   {
+				key = false;
+			}
+		}
+
+		o.keypress = function(event) {
+			if(event.key == "k") {
+				if(fireBall){
+					fireBall = false;
+				}else {
+					fireBall = true;
+				}
+			}
+		}
+
+		return o;
+	}
+
+	function registerEvent(key, func) {
+		window.addEventListener(key, function(event){
+			func(event);
+		});
+	}
+
+	function draw(img, image) {
+		context.drawImage(img , image.x, image.y)
+	}
+
+    function __main() {
+
+		var paddle = new Paddle();
+    	var ball = new  Ball();
+    	var game = new Game();
+
+    	var img = new Image();
+    	var img2 = new Image();
+		
+		draw(img, paddle);
+		draw(img2, ball);
+		img.src = game.paddle; 
+		img2.src = game.ball;
+
+		setInterval(function(){
+			if(key == "a" && (paddle.x > 0)) {
+				paddle.moveLeft();
+			}else if(key == "d" && (paddle.x < canvas.width - paddle.width)) {
+				paddle.moveRight();
+			}
+			
+			if(ball.collide(paddle)) {
+				ball.reverse();
+			}
+			
+			if (fireBall) {
+				ball.move();	
+			}
+			
+			context.clearRect(0, 0, 400, 300);
+			draw(img, paddle);
+			draw(img2, ball);
+
+		},1000/30);
+
+    	//刷新
+    	registerEvent("keydown", game.keydown);
+		registerEvent("keyup", game.keyup);
+		registerEvent("keypress", game.keypress);
+	}
+
+    __main();
+</script>
+</body>
+</html>

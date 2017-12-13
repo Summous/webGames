@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+	canvas {
+		border: solid 1px black;
+	}
+</style>
+<script src="paddle.js"></script>
+<script src="ball.js"></script>
+<script src="brick.js"></script>
+<script src="game.js"></script>
+<script src="utools.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<title>game 1</title>
+</head>
+<body>
+	<canvas id="id_canvas" width="400" height="300"></canvas>
+	<input id="id_range" type="range" value="fps" min=20 max=80>
+<script>
+    function __main() {
+		var paddle = Paddle();
+    	var ball =  Ball();
+    	var game = Game();
+    	var pause = true;
+
+    	var bricks = [];
+    	for(var i = 0; i < 4; i++) {
+    		var brick = new Brick();
+    		brick.x = 50 + 50 * i;
+    		brick.y = 50 * i;
+    		bricks.push(brick);
+    	}
+
+		game.update = function() {
+			if(!pause) {
+				return false;
+			}
+
+			ball.move();
+
+			if(collide(ball, paddle)) {
+				ball.reverse();
+			}
+			for(var i = 0; i < bricks.length; i ++) {
+				if (collide(ball, bricks[i]) && !bricks[i].alive) {
+					bricks[i].disappear();
+					ball.reverse();
+				}				
+			}
+
+		}
+
+		game.draw = function() {
+			game.drawImage(paddle);
+			game.drawImage(ball);
+			for(var i = 0; i < bricks.length; i++) {
+				if(!bricks[i].alive) {
+					game.drawImage(bricks[i]);	
+				}
+			}			
+		}
+		
+		game.resgisterEvent("a", function(event) {
+			paddle.moveLeft();
+		});
+
+		game.resgisterEvent("d", function(event) {
+			paddle.moveRight();
+		});
+
+		game.resgisterEvent("k", function(event) {
+			ball.fireBall();
+		});
+
+		window.addEventListener("keydown", function(event) {
+			if(event.key == "p") {
+				pause = !pause;	
+			}		
+		});
+	}
+
+    __main();
+</script>
+</body>
+</html>
