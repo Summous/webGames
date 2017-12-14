@@ -1,10 +1,17 @@
 	function __main() {
-		var paddle = Paddle();
-    	var ball =  Ball();
-    	var game = Game();
-	    bricks = loadLevel(3);
-		//
-		enableDebug(true);
+    	//
+    	var images = {
+    		ball: "Ball.png",
+    		brick: "Brick.png",
+    		paddle: "Paddle.png"
+    	}
+    	
+    	var game = Game(images);
+		var paddle = Paddle(game);
+    	var ball =  Ball(game);
+	    bricks = loadLevel(game, 3);
+
+		enableDebug(game, true);
 
 		game.update = function() {
 			if(!pause) {
@@ -16,11 +23,13 @@
 			if(ball.collide(paddle)) {
 				ball.reverse();
 			}
+
 			for(var i = 0; i < bricks.length; i ++) {		
 				if(ball.collide(bricks[i])) {
 					bricks[i].disappear();
 					if(bricks[i].alive) {
 						ball.reverse();
+					}else if(bricks[i].lives == 0) {
 						game.score += 100;
 					}
 				}			

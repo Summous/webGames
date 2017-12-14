@@ -1,6 +1,6 @@
-	var Brick = function() {
+	var Brick = function(game) {
 		//
-	    var img = imagePath("Brick.png");
+	    var img = game.loadImageByName("brick");
 		var o = {
 			image: img,
 			x: 150,

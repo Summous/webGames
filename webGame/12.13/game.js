@@ -1,7 +1,11 @@
-	var Game = function() {
+	var Game = function(images) {
+		//images 是一个对象，里面包含图片的名字和路径，
+		//用于预先加载图片
 		var o = {
 			keydown: {},
 			actions: {},
+			//
+			images: {}
 		};
 
 		o.canvas = document.querySelector("#id_canvas");
@@ -26,6 +30,32 @@
 		//初始化得分
 		o.score = Number(100);
 
+        //预先加图片，由于JS中图片是异步加载的，
+        //所以要在runloop()运行前加载完全部图片
+        var name = Object.keys(images);
+        var len = name.length;
+		for (var i = 0; i < len; i++) {
+			var img = new Image();
+			var p = name[i];
+			img.src = images[p];
+			o.images[p] = img;
+			if(i == len-1) {
+				run();
+			}
+		}
+
+		//
+		o.loadImageByName = function(image) {
+			return o.images[image];
+		}
+
+		function run() {
+			//使用setTimeout，避免setInterval在重复定时器时出现问题
+			setTimeout(function() {
+				runloop();
+			}, 1000/fps)
+		}
+
 		function runloop() {
 			var actions = Object.keys(o.actions);
 			for(var i = 0; i < actions.length; i++) {
@@ -44,12 +74,6 @@
 				runloop();
 			}, 1000/fps)
 		}
-
-		//使用setTimeout，避免setInterval在重复定时器时出现问题
-		setTimeout(function() {
-			runloop();
-		}, 1000/fps)
-
 
 		return o;
 	}

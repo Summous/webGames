@@ -1,6 +1,6 @@
-	var Ball = function() {
+	var Ball = function(game) {
 		//
-		var img = imagePath("ball.png");
+		var img = game.loadImageByName("ball");
 		var o = {
 			image: img,
 			x: 130,

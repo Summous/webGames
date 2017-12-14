@@ -1,6 +1,6 @@
-	var Paddle = function() {
+	var Paddle = function(game) {
 		//
-		var img = imagePath("paddle.png");
+		var img = game.loadImageByName("paddle");
 		var o = {
 			image: img,
 			x: 120,
@@ -8,7 +8,6 @@
 			speed: 8
 		}
 
-		
 		o.moveLeft = function() {
 			if(o.x > 0) {
 				o.x -= o.speed;	
