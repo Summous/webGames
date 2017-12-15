@@ -32,24 +32,28 @@
 
         //预先加图片，由于JS中图片是异步加载的，
         //所以要在runloop()运行前加载完全部图片
+        var loads = [];
         var name = Object.keys(images);
-        var len = name.length;
-		for (var i = 0; i < len; i++) {
-			var img = new Image();
+		for (var i = 0; i < name.length; i++) {
+			let img = new Image();
 			var p = name[i];
 			img.src = images[p];
 			o.images[p] = img;
-			if(i == len-1) {
-				run();
+			img.onload = function() {
+				loads.push(i);
+				if(loads.length == name.length) {
+					o.run();
+				}
 			}
 		}
+	
 
 		//
 		o.loadImageByName = function(image) {
 			return o.images[image];
 		}
 
-		function run() {
+		o.run = function() {
 			//使用setTimeout，避免setInterval在重复定时器时出现问题
 			setTimeout(function() {
 				runloop();
