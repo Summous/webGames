@@ -11,7 +11,6 @@
     	var ball =  Ball(game);
 	    bricks = loadLevel(game, 3);
 
-	    //用于Debug，实现暂停功能和设置关卡
 		enableDebug(game, true);
 
 		game.update = function() {
@@ -60,9 +59,28 @@
 			ball.fireBall();
 		});
 
+		//暂停时小球跟随鼠标移动
+		// window.addEventListener("click", function(event) {
+		// 	if(!pause) {
+		// 		ball.x = event.offsetX;
+		// 		ball.y = event.offsetY;	
+		// 	}
+		// });
 
-		window.addEventListener("click", function(event) {
-			if(!pause) {
+		//升级版：单击控制小球进行拖拽
+		var move = false;
+		window.addEventListener("mousedown", function(event) {
+			if(event.offsetX > ball.x && event.offsetX < ball.x + ball.image.width) {
+				if(event.offsetY > ball.y && event.offsetY < ball.y + ball.image.height) {
+					move = !move;
+				}
+			}else if(move) {
+				move = false;
+			}
+		});
+
+		window.addEventListener("mousemove", function(event) {
+			if(move) {
 				ball.x = event.offsetX;
 				ball.y = event.offsetY;	
 			}
