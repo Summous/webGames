@@ -1,7 +1,8 @@
-	var Game = function(images) {
+	var Game = function(images, runCallback) {
 		//images 是一个对象，里面包含图片的名字和路径，
 		//用于预先加载图片
 		var o = {
+			scence: null,
 			keydown: {},
 			actions: {},
 			images: {}
@@ -25,6 +26,15 @@
 		o.resgisterEvent = function(key, callback) {
 			o.actions[key] = callback;
 		}
+
+		//
+		o.update = function() {
+			o.scence.update();
+		}
+
+		o.draw = function() {
+			o.scence.draw();
+		}	
 
 		//初始化得分
 		o.score = Number(100);
@@ -50,11 +60,20 @@
 			return o.images[image];
 		}
 
-		o.run = function() {
+		o.runwithScence = function() {
+
+		}
+
+		o.runWithScence = function(scence) {
+			o.scence = scence;
 			//使用setTimeout，避免setInterval在重复定时器时出现问题
 			setTimeout(function() {
 				runloop();
 			}, 1000/fps)
+		}
+
+		o.run() {
+			runCallback(o);
 		}
 
 		function runloop() {
