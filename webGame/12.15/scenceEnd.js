@@ -8,8 +8,6 @@ var ScenceEnd = function(game) {
 	}
 
 	o.draw = function() {
-		log("end")
-		//游戏结束
 		game.context.clearRect(0, 0, 400, 300);
 		game.context.fillText("游戏结束", 160, 180);
 		return;

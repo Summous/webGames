@@ -60,8 +60,8 @@
 			return o.images[image];
 		}
 
-		o.runwithScence = function() {
-
+		o.repalceScence = function(scence) {
+			o.scence = scence;
 		}
 
 		o.runWithScence = function(scence) {
@@ -72,8 +72,8 @@
 			}, 1000/fps)
 		}
 
-		o.run() {
-			runCallback(o);
+		o.run = function(){
+			runCallback(o.scence);
 		}
 
 		function runloop() {

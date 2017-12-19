@@ -1,4 +1,4 @@
-var Scence = function(game, scence_end) {
+var Scence = function(game) {
 	var o = {
 		game: game
 	}
@@ -6,19 +6,22 @@ var Scence = function(game, scence_end) {
 	var paddle = Paddle(game);
 	var ball =  Ball(game);
     bricks = loadLevel(game, 3);
-    // var gameover = false;
-
-    //替换场景
- 
 
 	o.update = function() {
 		if(!pause) {
 			return;
 		}
 
-		if(ball.y < paddle.y) {
-			ball.move();	
-		}
+		
+		ball.move();
+
+		if(ball.y > paddle.y) {
+			//终止游戏
+			log("a");
+			var scence_end = ScenceEnd(game);
+			game.repalceScence(scence_end);
+		}	
+		
 
 		if(ball.collide(paddle)) {
 			ball.reverse();
