@@ -12,7 +12,6 @@ var Scence = function(game) {
 			return;
 		}
 
-		
 		ball.move();
 
 		if(ball.y > paddle.y) {
@@ -58,7 +57,7 @@ var Scence = function(game) {
 		paddle.moveRight();
 	});
 
-	game.resgisterEvent("k", function(event) {
+	game.resgisterEvent("f", function(event) {
 		ball.fireBall();
 	});
 
