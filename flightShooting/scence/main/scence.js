@@ -1,46 +1,157 @@
+class Player extends GameImage {
+	constructor(game, name) {
+		super(game, name);
+		this.init();
+	}
+
+	init() {
+		this.speed = 8;
+	    this.x = 100;
+		this.y = 500;
+		this.bullet = [];
+	}
+
+	fire() {
+		var bullet = new Bullet(this.game, "bullet");
+		bullet.x = this.x + (this.w - bullet.w)/2;
+		bullet.y = this.y;
+		this.bullet.push(bullet);
+	}
+
+	moveLeft() {
+		this.x -= this.speed;
+	}
+	
+	moveRight() {
+		this.x += this.speed;	
+	}
+
+	moveUp() {
+		this.y -= this.speed;
+	}
+
+	moveDown() {
+		this.y += this.speed;
+	}
+}
+
+class Enemy extends GameImage {
+	constructor(game, name) {
+		super(game, name);
+		this.init();
+	}
+
+	init() {
+		this.speed = RandomBetween(1,3);
+		this.x = RandomBetween(0,300);
+		this.y = RandomBetween(0,100);
+	}
+
+	update() {
+		// this.y += this.speed;
+	}
+}
+
+class Cloud extends GameImage {
+	constructor(game, name) {
+		super(game, name);
+		this.init();
+	}
+
+	init() {
+		this.speed = RandomBetween(2,4);
+		this.x = RandomBetween(0,300);
+		this.y = RandomBetween(0,200);
+	}
+
+	update() {
+		this.y += this.speed;
+		if(this.y > 450) {
+			this.init();
+			this.y = 0;
+		}
+	}
+}
+
+class Bullet extends GameImage {
+	constructor(game, name) {
+		super(game, name);
+		this.init();
+	}
+
+	init() {
+		this.speed = 5;
+	}
+
+	update() {
+		this.y -= this.speed;
+	}
+}
+
 class Scence extends GameScence {
 	constructor(game) {
 		super(game);
 		this.init();
-	}
-
-	update() {
-			// this.game.resgisterEvent("a", function(event) {
-			// 	this.player.moveLeft();
-			// });
-
-			// this.game.resgisterEvent("d", function(event) {
-			// 	this.player.moveRight();
-			// });
-
-		// 	game.resgisterEvent("f", function(event) {
-		// 		ball.fireBall();
-		// 	});
-		this.cloud.y += 1;
-		if(this.cloud.y > 450) {
-			this.cloud.y = 0;
-		}
 		
 	}
 
-	init() {
-		this.sky = new GameImage(this.game, "space")
-		this.player = new GameImage(this.game, "player")
-		this.cloud = new GameImage(this.game, "cloud")
-	    this.player.x = 100;
-		this.player.y = 500;
-		this.player.w = 10;
-	    this.player.h = 10;
+	update() {
+		this.cloud.update();
+		for (var i = 0; i < this.enemy.length; i++) {
+			this.enemy[i].update();
+		}
 
-	    this.addElements(this.sky);
-	    this.addElements(this.player);
-	    this.addElements(this.cloud);
+		for (var i = 0; i < this.player.bullet.length; i++) {	
+			this.addElements(this.player.bullet[i]);
+			this.player.bullet[i].update();
+			if(this.player.bullet.y < 0) {
+				this.player.bullet = this.player.bullet.slice(1);
+			}
+			log(this.player.bullet.length)
+		}
 	}
 
-	// draw() {
-	// 	this.game.drawImage(this.sky);
-	// 	this.game.drawImage(this.player);
-	// }
+	init() {
+		var s = this;
+		var enemyNumbers = 5;
+		this.enemy = [];
+
+		this.space = new GameImage(this.game, "space");
+		this.cloud = new Cloud(this.game, "cloud");
+	    this.player = new Player(this.game, "player");
+
+	    this.addElements(this.space);
+	    this.addElements(this.cloud);
+	    this.addElements(this.player);
+
+	    for (var i = 0; i < enemyNumbers; i++) {
+	    	var enemyName = "enemy" + RandomBetween(1,5);
+	    	var enemy = new Enemy(this.game, enemyName)
+	    	this.addElements(enemy);
+	    	this.enemy.push(enemy)
+	    }
+
+	    this.game.resgisterEvent("a", function() {
+	    	s.player.moveLeft();
+	    });
+
+	    this.game.resgisterEvent("d", function() {
+	    	s.player.moveRight();s
+	    });
+
+	    this.game.resgisterEvent("w", function() {
+	    	s.player.moveUp();
+	    });
+
+	    this.game.resgisterEvent("s", function() {
+	    	s.player.moveDown();
+	    });
+
+	    this.game.resgisterEvent("j", function() {
+	    	s.player.fire();
+	    });
+	}
+
 }
 
 // var Scence = function(game) {

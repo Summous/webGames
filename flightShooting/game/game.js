@@ -45,49 +45,51 @@
 	        //预先加载图片：由于JS中图片是异步加载的，
 	        //所以要在runloop()运行前加载完全部图片
 
-	        //原方法
-	        // var o = this;
-	        // var loads = [];
-	        // var name = Object.keys(o.images);
-			// for (var i = 0; i < name.length; i++) {
-			// 	let img = new Image();
-			// 	var p = name[i];
-			// 	img.src = o.images[p];
-			// 	o.images[p] = img;
-			// 	img.onload = function() {
-			// 		loads.push(i);
-			// 		if(loads.length == name.length) {
-			// 			o.run();
-			// 		}
-			// 	}
-			// }
-
-			//promise 方法
-			var o = this;
-			var	img = [];
-			var name = Object.keys(o.images);
-			for(var i = 0; i < name.length; i++) {
-				img.push(o.images[name[i]]);
-			}
-
-			const preloadImage = function(path) {
-				return new Promise(function(resolve, reject) {
-					let image = new Image();
-					image.onload =resolve(image);
-					image.src = path;
-				});
-			};
-
-			for(let i = 0; i < img.length; i++) {
-				var times = 1;
-				preloadImage(img[i]).then(function(image){		
-					o.images[name[i]] = image;
-					if(times == 3){
-						o.run()	
+	        // 原方法
+	        var o = this;
+	        var loads = [];
+	        var name = Object.keys(o.images);
+			for (var i = 0; i < name.length; i++) {
+				let img = new Image();
+				var p = name[i];
+				img.src = o.images[p];
+				o.images[p] = img;
+				img.onload = function() {
+					loads.push(i);
+					if(loads.length == name.length) {
+						o.run();
 					}
-					times++;
-				});	
+				}
 			}
+		
+
+		//promise 方法
+		// 	var o = this;
+		// 	var	img = [];
+		// 	var name = Object.keys(o.images);
+		// 	for(var i = 0; i < name.length; i++) {
+		// 		img.push(o.images[name[i]]);
+		// 	}
+		// 	log(img)
+		// 	const preloadImage = function(path) {
+		// 		return new Promise(function(resolve, reject) {
+		// 			let image = new Image();
+		// 			image.onload =resolve(image);
+		// 			image.src = path;
+		// 		});
+		// 	};
+
+		// 	for(let i = 0; i < img.length; i++) {
+		// 		var times = 1;
+		// 		preloadImage(img[i]).then(function(image){		
+		// 			o.images[name[i]] = image;
+		// 			if(times == 3){
+		// 				o.run()	
+		// 			}
+		// 			times++;
+		// 		});	
+		// 	}
+		
 		}
 
 	

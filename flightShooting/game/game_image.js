@@ -6,10 +6,11 @@ class GameImage {
 		this.y = 0;
 		this.w = this.img.width;
 		this.h = this.img.height;
+
 	}
-	
 
 	updata() {
+		
 
 	}
 

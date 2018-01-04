@@ -18,4 +18,6 @@ class GameScence {
 	addElements(elements) {
 		this.elements.push(elements);
 	}
+
+	
 }

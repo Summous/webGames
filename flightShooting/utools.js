@@ -3,6 +3,8 @@
 	var fps = 30;
 	var levels = 1;
 
+
+
 	//加载关卡
 	var loadLevel = function(game, n) {
 		var bricks = [];
@@ -42,6 +44,12 @@
 		
 	}
 
+	//产生随机数
+	const RandomBetween = function(start, end) {
+		var n = Math.random()*(end - start + 1);
+		var result = Math.floor(n + start);
+		return result;
+	}
 
 
 
