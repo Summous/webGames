@@ -9,7 +9,7 @@ class GameImage {
 
 	}
 
-	updata() {
+	update() {
 		
 
 	}

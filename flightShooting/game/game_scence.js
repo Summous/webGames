@@ -4,19 +4,25 @@ class GameScence {
 		this.elements = [];
 	}
 
-	updata() {
+	update() {
+		for (var i = 0; i < this.elements.length; i++) {
+			var a = this.elements[i];
+			a.update();
+		}
 
 	}
 
 	draw() {
 		for (var i = 0; i < this.elements.length; i++) {
-			this.game.drawImage(this.elements[i]);
+			var b = this.elements[i];
+			this.game.drawImage(b);
 		}
 		
 	}
 
-	addElements(elements) {
-		this.elements.push(elements);
+	addElements(img) {
+		img.scence = this;
+		this.elements.push(img);
 	}
 
 	

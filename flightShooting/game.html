@@ -36,10 +36,39 @@
 		<br>
 		<h4>控制小球速度</h4>
 		<input id="id_range" type="range" value="fps" min=20 max=80>
-	<!-- 	<div class="id_text">
-			<textarea name="textarea" rows="10" cols="55">Write something here</textarea>
-		</div> -->
-		<!-- 1 -->
+		<div class="slider">
+			<label>
+				<input type="range" class="auto-slider-speed" name=""
+				value="" data-value="config.player_speed">
+				玩家速度为：<span class="game_label"></span>
+			</label>
+		</div>
 	<script src="main.js"></script>
+	<script type="text/javascript">
+		var es = (sel) => {document.querySelectorAll(sel);};
+		var bindAll = function(sel, eventName, callBack) {
+			var e = es(sel);
+			for (var i = 0; i < e.length; i++) {
+				var l = e[i];
+				l.addEventListener(eventName, function(event) {
+					callBack(event);
+				});
+			}
+		}
+
+		bindAll(".auto-slider-speed", "input", function(event) {
+			var target = event.target;
+			var bindVar = target.dateset.value;
+			var v = target.value;
+			evel(bindVar + "=" + v);
+			var label = target.closest("label").querySelector("game_label")
+			label.innerHTML = v;
+		})
+
+
+
+
+
+	</script>
 	</body>
 </html>
