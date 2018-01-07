@@ -34,18 +34,32 @@
 	<body>
 		<canvas id="id_canvas" width="400" height="600"></canvas>
 		<br>
-		<h4>控制小球速度</h4>
-		<input id="id_range" type="range" value="fps" min=20 max=80>
+		
+		<input id="id_range" type="range" value="fps" min=20 max=80>fps控制
 		<div class="slider">
 			<label>
 				<input type="range" class="auto-slider-speed" name=""
 				value="" data-value="config.player_speed">
-				玩家速度为：<span class="game_label"></span>
+				玩家速度：<span class="game_label"></span>
+			</label>
+		</div>
+		<div class="slider">
+			<label>
+				<input type="range" class="auto-slider-speed" name=""
+				value="" data-value="config.cloud_speed" max=10 min=-10>
+				白云速度：<span class="game_label"></span>
+			</label>
+		</div>
+		<div class="slider">
+			<label>
+				<input type="range" class="auto-slider-speed" name=""
+				value="" data-value="config.bullet_speed" min=2 max=10>
+				子弹速度：<span class="game_label"></span>
 			</label>
 		</div>
 	<script src="main.js"></script>
 	<script type="text/javascript">
-		var es = (sel) => {document.querySelectorAll(sel);};
+		var es = (sel) => document.querySelectorAll(sel);
 		var bindAll = function(sel, eventName, callBack) {
 			var e = es(sel);
 			for (var i = 0; i < e.length; i++) {
@@ -58,17 +72,12 @@
 
 		bindAll(".auto-slider-speed", "input", function(event) {
 			var target = event.target;
-			var bindVar = target.dateset.value;
+			var bindVar = target.dataset.value;
 			var v = target.value;
-			evel(bindVar + "=" + v);
-			var label = target.closest("label").querySelector("game_label")
-			label.innerHTML = v;
-		})
-
-
-
-
-
+			eval(bindVar + "=" + v);//
+			var label = target.closest("label").querySelector(".game_label")
+			label.innerText = v;
+		});
 	</script>
 	</body>
 </html>
