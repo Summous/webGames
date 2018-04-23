@@ -45,6 +45,7 @@
 	        //预先加载图片：由于JS中图片是异步加载的，
 	        //所以要在runloop()运行前加载完全部图片
 
+<<<<<<< HEAD
 	        //原方法
 	        // var o = this;
 	        // var loads = [];
@@ -88,6 +89,53 @@
 					times++;
 				});	
 			}
+=======
+	        // 原方法
+	        var o = this;
+	        var loads = [];
+	        var name = Object.keys(o.images);
+			for (var i = 0; i < name.length; i++) {
+				let img = new Image();
+				var p = name[i];
+				img.src = o.images[p];
+				o.images[p] = img;
+				img.onload = function() {
+					loads.push(i);
+					if(loads.length == name.length) {
+						o.run();
+					}
+				}
+			}
+		
+
+		//promise 方法
+		// 	var o = this;
+		// 	var	img = [];
+		// 	var name = Object.keys(o.images);
+		// 	for(var i = 0; i < name.length; i++) {
+		// 		img.push(o.images[name[i]]);
+		// 	}
+		// 	log(img)
+		// 	const preloadImage = function(path) {
+		// 		return new Promise(function(resolve, reject) {
+		// 			let image = new Image();
+		// 			image.onload =resolve(image);
+		// 			image.src = path;
+		// 		});
+		// 	};
+
+		// 	for(let i = 0; i < img.length; i++) {
+		// 		var times = 1;
+		// 		preloadImage(img[i]).then(function(image){		
+		// 			o.images[name[i]] = image;
+		// 			if(times == 3){
+		// 				o.run()	
+		// 			}
+		// 			times++;
+		// 		});	
+		// 	}
+		
+>>>>>>> dev
 		}
 
 	
@@ -125,6 +173,7 @@
 
 			o.update();
 			
+<<<<<<< HEAD
 			if(!"1234678".includes(levels)) {
 				o.score = 0;
 			}
@@ -132,6 +181,11 @@
 			o.context.clearRect(0, 0, 400, 300);
 			o.context.font = "10px serif";
 			o.context.fillText('得分：' + o.score, 10, 290);
+=======
+			// o.context.clearRect(0, 0, 400, 300);
+			// o.context.font = "10px serif";
+			// o.context.fillText('得分：' + o.score, 10, 290);
+>>>>>>> dev
 
 			// //绘制背景
 			// o.context.fillStyle = '#fff';
