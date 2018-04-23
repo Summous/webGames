@@ -6,6 +6,7 @@ class GameScence {
 	}
 
 	update() {
+		// log(this.elements)
 		//debug:动态调整速度
 		if(this.debugModeEabled) {
 			for (var i = 0; i < this.elements.length; i++) {

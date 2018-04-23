@@ -127,13 +127,9 @@
 
 			o.update();
 			
-			if(!"1234678".includes(levels)) {
-				o.score = 0;
-			}
-
-			o.context.clearRect(0, 0, 400, 300);
-			o.context.font = "10px serif";
-			o.context.fillText('得分：' + o.score, 10, 290);
+			// o.context.clearRect(0, 0, 400, 300);
+			// o.context.font = "10px serif";
+			// o.context.fillText('得分：' + o.score, 10, 290);
 
 			// //绘制背景
 			// o.context.fillStyle = '#fff';
